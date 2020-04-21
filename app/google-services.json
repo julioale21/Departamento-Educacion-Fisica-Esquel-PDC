@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "361629220265",
+    "firebase_url": "https://depefesquel.firebaseio.com",
+    "project_id": "depefesquel",
+    "storage_bucket": "depefesquel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361629220265:android:3f18bad7b8d4dfd67058b8",
+        "android_client_info": {
+          "package_name": "com.example.departamentoeducacionfisicaesquel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361629220265-qod0pmtlhbfme3srv8h1fmigjpa35ss5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.departamentoeducacionfisicaesquel",
+            "certificate_hash": "390d134c86476be8a252b5d86b557c4f0c87b3bd"
+          }
+        },
+        {
+          "client_id": "361629220265-ndojama5rl9v41dacgoikg2qjl4ppkpr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_liTMqz8ZWKL03pxNE4pew4FiKsVvpxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361629220265-ndojama5rl9v41dacgoikg2qjl4ppkpr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

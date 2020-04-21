@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <!-- Creamos el degradado añadiendo cada
+                 color hexagesimal dondo orresponda
+                 también se puede añadir un ángulo -->
+            <gradient android:startColor="#0C0C0C"
+                android:centerColor="#3F51B5"
+                android:endColor="#121111"
+                android:angle="-90" />
+        </shape>
+    </item>
+</selector>
