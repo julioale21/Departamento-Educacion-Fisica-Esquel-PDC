@@ -18,42 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.old_email)
-    EditText oldEmail;
-    @BindView(R.id.new_email)
-    EditText newEmail;
-    @BindView(R.id.password)
-    EditText password;
-    @BindView(R.id.newPassword)
-    EditText newPassword;
-    @BindView(R.id.changeEmail)
-    Button changeEmail;
-    @BindView(R.id.changePass)
-    Button changePassword;
-    @BindView(R.id.send)
-    Button sendEmail;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-    @BindView(R.id.remove)
-    Button remove;
-    @BindView(R.id.change_email_button)
-    Button btnChangeEmail;
-    @BindView(R.id.change_password_button)
-    Button btnChangePassword;
-    @BindView(R.id.sending_pass_reset_button)
-    Button btnSendResetEmail;
-    @BindView(R.id.remove_user_button)
-    Button btnRemoveUser;
-    @BindView(R.id.sign_out)
-    Button signOut;
-
     // Declarar variables
+    private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
+            changeEmail, changePassword, sendEmail, remove, signOut;
+    private EditText oldEmail, newEmail, password, newPassword;
+    private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
 
@@ -61,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         // Obtener referencia de Auth Firebase
         auth = FirebaseAuth.getInstance();
@@ -81,6 +51,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+        // Obtener referencias de los objetos
+        btnChangeEmail = (Button) findViewById(R.id.change_email_button);
+        btnChangePassword = (Button) findViewById(R.id.change_password_button);
+        btnSendResetEmail = (Button) findViewById(R.id.sending_pass_reset_button);
+        btnRemoveUser = (Button) findViewById(R.id.remove_user_button);
+        changeEmail = (Button) findViewById(R.id.changeEmail);
+        changePassword = (Button) findViewById(R.id.changePass);
+        sendEmail = (Button) findViewById(R.id.send);
+        remove = (Button) findViewById(R.id.remove);
+        signOut = (Button) findViewById(R.id.sign_out);
+
+        oldEmail = (EditText) findViewById(R.id.old_email);
+        newEmail = (EditText) findViewById(R.id.new_email);
+        password = (EditText) findViewById(R.id.password);
+        newPassword = (EditText) findViewById(R.id.newPassword);
 
         oldEmail.setVisibility(View.GONE);
         newEmail.setVisibility(View.GONE);

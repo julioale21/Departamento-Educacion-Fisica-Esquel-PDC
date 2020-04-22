@@ -1,60 +1,47 @@
 package com.example.departamentoeducacionfisicaesquel.Login;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.departamentoeducacionfisicaesquel.R;
 import com.example.departamentoeducacionfisicaesquel.Utils.MailJob;
+import com.example.departamentoeducacionfisicaesquel.R;
 import com.example.departamentoeducacionfisicaesquel.Utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class SignUpActivity extends AppCompatActivity {
 
-    @BindView(R.id.nombre)
-    EditText etNombre;
-    @BindView(R.id.apellido)
-    EditText etApellido;
-    @BindView(R.id.jerarquia)
-    EditText etJerarquia;
-    @BindView(R.id.dependencia)
-    EditText etDependencia;
-    @BindView(R.id.email)
-    EditText etEmail;
-    @BindView(R.id.btn_enviar)
-    Button btnEnviar;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-    @BindView(R.id.lblNombre)
-    TextView lblNombre;
-    @BindView(R.id.lblApellido)
-    TextView lblApellido;
-    @BindView(R.id.lblJerarquia)
-    TextView lblJerarquia;
-    @BindView(R.id.lblDependencia)
-    TextView lblDependencia;
-    @BindView(R.id.lblEmail)
-    TextView lblEmail;
-
+    private EditText etNombre, etApellido, etJerarquia, etDependencia, etEmail;
+    private Button btnEnviar;
+    private TextView lblNombre, lblApellido, lblJerarquia, lblDependencia, lblEmail;
     FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        ButterKnife.bind(this);
 
         auth = FirebaseAuth.getInstance();
+
+        etNombre = (EditText)findViewById(R.id.nombre);
+        etApellido = (EditText)findViewById(R.id.apellido);
+        etJerarquia = (EditText)findViewById(R.id.jerarquia);
+        etDependencia = (EditText)findViewById(R.id.dependencia);
+        etEmail = (EditText)findViewById(R.id.email);
+
+        lblNombre = (TextView)findViewById(R.id.lblNombre);
+        lblApellido = (TextView)findViewById(R.id.lblApellido);
+        lblJerarquia = (TextView)findViewById(R.id.lblJerarquia);
+        lblDependencia = (TextView)findViewById(R.id.lblDependencia);
+        lblEmail = (TextView)findViewById(R.id.lblEmail);
+
+        btnEnviar = (Button)findViewById(R.id.btn_enviar);
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             finish();
 
-        } catch (Exception e) {
+        }catch (Exception e){
             Toast.makeText(SignUpActivity.this, "Algo ocurrio y no se pudo realizar la solicitud. Intenta nuevamente", Toast.LENGTH_LONG).show();
         }
     }
@@ -91,31 +78,31 @@ public class SignUpActivity extends AppCompatActivity {
 
         Boolean valido = true;
 
-        if (TextUtils.isEmpty(etNombre.getText().toString())) {
+        if (TextUtils.isEmpty(etNombre.getText().toString())){
             lblNombre.setText("Debe ingresar el nombre");
             lblNombre.setVisibility(View.VISIBLE);
             valido = false;
-        } else {
+        }else {
             lblNombre.setVisibility(View.GONE);
         }
 
-        if (TextUtils.isEmpty(etApellido.getText().toString())) {
+        if (TextUtils.isEmpty(etApellido.getText().toString())){
             lblApellido.setText("Debe ingresar el Apellido");
             lblApellido.setVisibility(View.VISIBLE);
             valido = false;
-        } else {
+        }else {
             lblApellido.setVisibility(View.GONE);
         }
 
-        if (TextUtils.isEmpty(etJerarquia.getText().toString())) {
+        if (TextUtils.isEmpty(etJerarquia.getText().toString())){
             lblJerarquia.setText("Debe ingresar su jerarquia");
             lblJerarquia.setVisibility(View.VISIBLE);
             valido = false;
-        } else {
+        } else{
             lblJerarquia.setVisibility(View.GONE);
         }
 
-        if (TextUtils.isEmpty(etDependencia.getText().toString())) {
+        if (TextUtils.isEmpty(etDependencia.getText().toString())){
             lblDependencia.setText("Debe ingresar su dependencia");
             lblDependencia.setVisibility(View.VISIBLE);
             valido = false;
@@ -123,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
             lblDependencia.setVisibility(View.GONE);
         }
 
-        if (TextUtils.isEmpty(etEmail.getText().toString())) {
+        if (TextUtils.isEmpty(etEmail.getText().toString())){
             lblEmail.setText("Debe ingresar su email");
             lblEmail.setVisibility(View.VISIBLE);
             valido = false;
@@ -133,5 +120,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         return valido;
     }
+
 }
 
