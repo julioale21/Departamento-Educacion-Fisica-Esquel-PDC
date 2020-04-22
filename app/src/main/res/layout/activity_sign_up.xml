@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/hint_nombre"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
                     android:textColor="@color/white"
                     android:autofillHints="@string/hint_nombre"
                     />
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/hint_apellido"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
                     android:textColor="@android:color/white"
                     android:autofillHints="@string/hint_apellido"
                     />
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:hint="@string/hint_jerarquia"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
                     android:textColor="@android:color/white"
                     android:autofillHints="@string/hint_jerarquia"
                     />
@@ -140,7 +140,7 @@
                     android:layout_marginBottom="10dp"
                     android:hint="@string/hint_dependencia"
                     android:autofillHints="@string/hint_dependencia"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
                     android:textColor="@android:color/white"
                     />
 

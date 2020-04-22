@@ -37,33 +37,15 @@ public class LoginActivity extends AppCompatActivity {
         }
         // Establecer la vista ahora
         setContentView(R.layout.activity_login);
-        // Obtener la referencia de los controles
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
+
         // Obtener instancia de autenticación de Firebase
         auth = FirebaseAuth.getInstance();
-        // Clic del botón registrar en la aplicación
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
-            }
-        });
-        // Clic en el boton para resetear la contraseña del usuario
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RestartPasswordActivity.class));
-            }
-        });
-        // Clic para acceder
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
+
+    @OnClick({R.id.btn_login, R.id.btn_reset_password, R.id.btn_signup})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_login:
                 // Obtener valores de los editText
                 String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
@@ -112,8 +94,11 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
-            }
-        });
+            case R.id.btn_reset_password:
+                startActivity(new Intent(LoginActivity.this, RestartPasswordActivity.class));
+            case R.id.btn_signup:
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+        }
     }
 }
 
