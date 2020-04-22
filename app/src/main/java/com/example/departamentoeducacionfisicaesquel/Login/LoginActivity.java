@@ -17,12 +17,29 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import butterknife.BindView;
+
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword;
+    @BindView(R.id.email)
+    EditText inputEmail;
+
+    @BindView(R.id.password)
+    EditText inputPassword;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.btn_signup)
+    Button btnSignup;
+
+    @BindView(R.id.btn_login)
+    Button btnLogin;
+
+    @BindView(R.id.btn_reset_password)
+    Button btnReset;
+
     private FirebaseAuth auth;
-    private ProgressBar progressBar;
-    private Button btnSignup, btnLogin, btnReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         // Establecer la vista ahora
         setContentView(R.layout.activity_login);
-        // Obtener la referencia de los controles
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
+
         // Obtener instancia de autenticación de Firebase
         auth = FirebaseAuth.getInstance();
         // Clic del botón registrar en la aplicación

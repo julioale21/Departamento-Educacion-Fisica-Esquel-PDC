@@ -23,14 +23,25 @@ import com.example.departamentoeducacionfisicaesquel.Login.LoginActivity;
 import com.example.departamentoeducacionfisicaesquel.Login.LoginActivity;
 import com.example.departamentoeducacionfisicaesquel.R;
 
+import butterknife.BindView;
+
 public class WelcomeActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+
+    @BindView(R.id.layoutDots)
+    LinearLayout dotsLayout;
+
+    @BindView(R.id.btn_skip)
+    Button btnSkip;
+
+    @BindView(R.id.btn_next)
+    Button btnNext;
+
     private MyViewPagerAdapter myViewPagerAdapter;
-    private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button btnSkip, btnNext;
     private PreferManager prefManager;
 
     @Override
@@ -50,11 +61,6 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_welcome);
-
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
 
         // layouts of all welcome sliders
         // add few more layouts if you want
