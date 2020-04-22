@@ -1,125 +1,120 @@
 package com.example.departamentoeducacionfisicaesquel.Login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.departamentoeducacionfisicaesquel.R;
-import com.example.departamentoeducacionfisicaesquel.Utils.MailJob;
-import com.example.departamentoeducacionfisicaesquel.Utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etNombre, etApellido, etJerarquia, etDependencia, etEmail;
-    private Button btnEnviar;
-    private TextView lblNombre, lblApellido, lblJerarquia, lblDependencia, lblEmail;
-    FirebaseAuth auth;
+    private EditText inputEmail, inputPassword;
+    private FirebaseAuth auth;
+    private ProgressBar progressBar;
+    private Button btnSignup, btnLogin, btnReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
+        //Obtener instancia de autenticación de Firebase
         auth = FirebaseAuth.getInstance();
-
-        etNombre = (EditText)findViewById(R.id.nombre);
-        etApellido = (EditText)findViewById(R.id.apellido);
-        etJerarquia = (EditText)findViewById(R.id.jerarquia);
-        etDependencia = (EditText)findViewById(R.id.dependencia);
-        etEmail = (EditText)findViewById(R.id.email);
-
-        lblNombre = (TextView)findViewById(R.id.lblNombre);
-        lblApellido = (TextView)findViewById(R.id.lblApellido);
-        lblJerarquia = (TextView)findViewById(R.id.lblJerarquia);
-        lblDependencia = (TextView)findViewById(R.id.lblDependencia);
-        lblEmail = (TextView)findViewById(R.id.lblEmail);
-
-        btnEnviar = (Button)findViewById(R.id.btn_enviar);
-
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
+        // Si la instancia es distinta de null
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+        // Establecer la vista ahora
+        setContentView(R.layout.activity_login);
+        // Obtener la referencia de los controles
+        inputEmail = (EditText) findViewById(R.id.email);
+        inputPassword = (EditText) findViewById(R.id.password);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btnSignup = (Button) findViewById(R.id.btn_signup);
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnReset = (Button) findViewById(R.id.btn_reset_password);
+        // Obtener instancia de autenticación de Firebase
+        auth = FirebaseAuth.getInstance();
+        // Clic del botón registrar en la aplicación
+        btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            }
+        });
+        // Clic en el boton para resetear la contraseña del usuario
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, RestartPasswordActivity.class));
+            }
+        });
+        // Clic para acceder
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtener valores de los editText
+                String email = inputEmail.getText().toString();
+                final String password = inputPassword.getText().toString();
+                // Validar si el logín a sido ingresado
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "¡Introducir la dirección de correo electrónico!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // Validar si se ingreso la constraseña
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "¡Introducir la contraseña!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // ProgressBar visible
+                progressBar.setVisibility(View.VISIBLE);
+                // Autenticar usuario existe
+                auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                // Si el inicio de sesión falla, muestre un mensaje al usuario. Si el inicio de sesión tiene éxito
+                                // el Auth de estado de autenticación será notificado y la lógica para manejar el
+                                // usuario registrado puede ser manejado en el Auth.
+                                progressBar.setVisibility(View.GONE);
+                                if (!task.isSuccessful()) {
+                                    // Ocurrio un problema
+                                    if (password.length() < 6) {
+                                        inputPassword.setError(getString(R.string.minimum_password));
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
 
-                if (validarFormulario()) enviarMail();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+
+                                  /*  FirebaseUser user = auth.getCurrentUser();
+                                    if (!user.isEmailVerified()){
+                                        Toast.makeText(LoginActivity.this, "Correo electronico no verificado", Toast.LENGTH_LONG).show();
+                                    }else{
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }*/
+                                }
+                            }
+                        });
             }
         });
     }
-
-    private void enviarMail() {
-
-        String contenido = "Nombre : " + etApellido.getText().toString() + " " + etNombre.getText().toString() + "\n" +
-                "Jerarquia: " + etJerarquia.getText().toString() + "\n" +
-                "Dependencia: " + etDependencia.getText().toString() + "\n" +
-                "Email: " + etEmail.getText().toString() + "\n" +
-                "Solicito se me envie un usuario y contraseña para acceder a la aplicación de Educación Física.";
-
-        try {
-            new MailJob(Utils.EMAIL, Utils.PASSWORD).execute(
-                    new MailJob.Mail(etEmail.getText().toString(), "julio_ale21@hotmail.com", "Solicitud de usuario y contraseña", contenido)
-            );
-
-            Toast.makeText(LoginActivity.this, "Te enviaremos los datos de tu cuenta al mail que ingresaste", Toast.LENGTH_LONG).show();
-
-            finish();
-
-        }catch (Exception e){
-            Toast.makeText(LoginActivity.this, "Algo ocurrio y no se pudo realizar la solicitud. Intenta nuevamente", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private boolean validarFormulario() {
-
-        Boolean valido = true;
-
-        if (TextUtils.isEmpty(etNombre.getText().toString())){
-            lblNombre.setText("Debe ingresar el nombre");
-            lblNombre.setVisibility(View.VISIBLE);
-            valido = false;
-        }else {
-            lblNombre.setVisibility(View.GONE);
-        }
-
-        if (TextUtils.isEmpty(etApellido.getText().toString())){
-            lblApellido.setText("Debe ingresar el Apellido");
-            lblApellido.setVisibility(View.VISIBLE);
-            valido = false;
-        }else {
-            lblApellido.setVisibility(View.GONE);
-        }
-
-        if (TextUtils.isEmpty(etJerarquia.getText().toString())){
-            lblJerarquia.setText("Debe ingresar su jerarquia");
-            lblJerarquia.setVisibility(View.VISIBLE);
-            valido = false;
-        } else{
-            lblJerarquia.setVisibility(View.GONE);
-        }
-
-        if (TextUtils.isEmpty(etDependencia.getText().toString())){
-            lblDependencia.setText("Debe ingresar su dependencia");
-            lblDependencia.setVisibility(View.VISIBLE);
-            valido = false;
-        } else {
-            lblDependencia.setVisibility(View.GONE);
-        }
-
-        if (TextUtils.isEmpty(etEmail.getText().toString())){
-            lblEmail.setText("Debe ingresar su email");
-            lblEmail.setVisibility(View.VISIBLE);
-            valido = false;
-        } else {
-            lblEmail.setVisibility(View.GONE);
-        }
-
-        return valido;
-    }
-
 }
+
 
