@@ -16,24 +16,35 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RestartPasswordActivity extends AppCompatActivity {
-    // Declara variables
-    private EditText inputEmail;
-    private Button btnReset, btnBack;
+
+    //Bind con Butter knife
+    @BindView(R.id.btn_reset_password)
+    Button btnReset;
+
+    @BindView(R.id.email)
+    EditText inputEmail;
+
+    @BindView(R.id.btn_back)
+    Button btnBack;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
     private FirebaseAuth auth;
-    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restart_password);
-        // Obtener referencias de los objetos
-        inputEmail = (EditText) findViewById(R.id.email);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
-        btnBack = (Button) findViewById(R.id.btn_back);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ButterKnife.bind(this);
+
         // Obtener instancias de Firebase
         auth = FirebaseAuth.getInstance();
+
         // Clic para regresar el Login
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,19 +52,24 @@ public class RestartPasswordActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         // Clic para resetear la contraseña
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Obtener valor del editText
                 String email = inputEmail.getText().toString().trim();
+
                 // Validar si se ingreso el correo electronico
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplication(), "Ingrese su ID de correo electrónico registrado", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 // Mostrar progressbar
                 progressBar.setVisibility(View.VISIBLE);
+
                 // Resetear contraseña
                 auth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(new OnCompleteListener() {

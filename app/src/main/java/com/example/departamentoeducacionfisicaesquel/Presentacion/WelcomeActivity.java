@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.departamentoeducacionfisicaesquel.Login.LoginActivity;
-import com.example.departamentoeducacionfisicaesquel.Login.LoginActivity;
 import com.example.departamentoeducacionfisicaesquel.R;
 
 public class WelcomeActivity extends AppCompatActivity {
