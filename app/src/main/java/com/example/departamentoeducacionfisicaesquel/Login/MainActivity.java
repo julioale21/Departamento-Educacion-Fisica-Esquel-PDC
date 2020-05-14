@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     // Iniciar actividad de inicio de sesión
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
+
                 }
             }
         };

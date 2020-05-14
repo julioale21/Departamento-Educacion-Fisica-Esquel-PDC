@@ -16,6 +16,14 @@ import com.example.departamentoeducacionfisicaesquel.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import javax.security.auth.callback.Callback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnReset;
 
     private FirebaseAuth auth;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +60,17 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         // Si la instancia es distinta de null
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+            /*startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();*/
+            assignRole();
+        } else{
+            // Establecer la vista ahora
+            setContentView(R.layout.activity_login);
+            ButterKnife.bind(this);
+
+            // Obtener instancia de autenticación de Firebase
+            auth = FirebaseAuth.getInstance();
         }
-        // Establecer la vista ahora
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
-        // Obtener instancia de autenticación de Firebase
-        auth = FirebaseAuth.getInstance();
-
     }
 
     @OnClick({R.id.btn_login, R.id.btn_reset_password, R.id.btn_signup})
@@ -100,19 +110,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                  /*  FirebaseUser user = auth.getCurrentUser();
-                                    if (!user.isEmailVerified()){
-                                        Toast.makeText(LoginActivity.this, "Correo electronico no verificado", Toast.LENGTH_LONG).show();
-                                    }else{
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }*/
+                                    // Verifica si el usuario es administrador
+                                    assignRole();
                                 }
                             }
                         });
@@ -127,6 +126,35 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+
+    private void assignRole() {
+        Boolean existe = false;
+        FirebaseDatabase miBD = FirebaseDatabase.getInstance();
+        DatabaseReference adminReference = miBD.getReference().child("admin");
+
+        Query adminByEmailQuery = adminReference.orderByChild("email").equalTo(auth.getCurrentUser().getEmail()).limitToFirst(1);
+
+        adminByEmailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                user = User.getInstance();
+                user.setName(auth.getCurrentUser().getDisplayName());
+                user.setEmail(auth.getCurrentUser().getEmail().toString());
+
+                if(dataSnapshot.exists()){
+                    user.setAdmin(true);
+                }
+                startActivity(new Intent(LoginActivity.this, PrincipalActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    };
 }
 
 
