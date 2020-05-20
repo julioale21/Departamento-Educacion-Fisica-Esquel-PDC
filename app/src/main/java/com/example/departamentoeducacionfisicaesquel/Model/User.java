@@ -1,4 +1,4 @@
-package com.example.departamentoeducacionfisicaesquel.Login;
+package com.example.departamentoeducacionfisicaesquel.Model;
 
 import java.io.Serializable;
 

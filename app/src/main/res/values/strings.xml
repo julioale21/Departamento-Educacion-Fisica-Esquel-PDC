@@ -60,17 +60,30 @@
     <string name="start">ENTENDIDO</string>
 
     <string name="slide_1_title">Bienvenidos!!</string>
-    <string name="slide_1_desc"> A la plataforma digital del Departamento de Educación física </string>
+    <string name="slide_1_desc"> A la plataforma de Educación Física de la Policia de la Provincia del Chubut</string>
 
-    <string name="slide_2_title">Movie Tickets</string>
-    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
+    <string name="slide_2_title">Rutinas</string>
+    <string name="slide_2_desc">Rutinas por categorias y niveles</string>
 
-    <string name="slide_3_title">Great Discounts</string>
-    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+    <string name="slide_3_title">Estiramientos</string>
+    <string name="slide_3_desc">Los mejores ejercicios para estirar</string>
 
-    <string name="slide_4_title">World Travel</string>
-    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+    <string name="slide_4_title">Exámenes</string>
+    <string name="slide_4_desc">Toda la información sobre las fechas de exámen</string>
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Policía del Chubut</string>
+    <string name="nav_header_subtitle">Departamento de Educación Física Esquel</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Inicio</string>
+    <string name="menu_estiramientos">Estiramientos</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
 </resources>

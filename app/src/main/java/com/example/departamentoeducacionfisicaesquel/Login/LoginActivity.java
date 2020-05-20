@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.departamentoeducacionfisicaesquel.Model.User;
+import com.example.departamentoeducacionfisicaesquel.ui.NavigationActivity;
 import com.example.departamentoeducacionfisicaesquel.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,8 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import javax.security.auth.callback.Callback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,20 +56,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Obtener instancia de autenticación de Firebase
         auth = FirebaseAuth.getInstance();
-        // Si la instancia es distinta de null
+
         if (auth.getCurrentUser() != null) {
-            /*startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();*/
-            assignRole();
+            //assignRole();
+            startActivity(new Intent(LoginActivity.this, NavigationActivity.class));
+            finish();
         } else{
-            // Establecer la vista ahora
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
 
-            // Obtener instancia de autenticación de Firebase
-            auth = FirebaseAuth.getInstance();
+            //auth = FirebaseAuth.getInstance();
         }
     }
 
@@ -81,11 +78,13 @@ public class LoginActivity extends AppCompatActivity {
                 // Obtener valores de los editText
                 String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
+
                 // Validar si el logín a sido ingresado
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "¡Introducir la dirección de correo electrónico!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 // Validar si se ingreso la constraseña
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(getApplicationContext(), "¡Introducir la contraseña!", Toast.LENGTH_SHORT).show();
@@ -93,14 +92,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 // ProgressBar visible
                 progressBar.setVisibility(View.VISIBLE);
+
                 // Autenticar usuario existe
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {
-                                // Si el inicio de sesión falla, muestre un mensaje al usuario. Si el inicio de sesión tiene éxito
-                                // el Auth de estado de autenticación será notificado y la lógica para manejar el
-                                // usuario registrado puede ser manejado en el Auth.
                                 progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
                                     // Ocurrio un problema
@@ -128,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void assignRole() {
-        Boolean existe = false;
         FirebaseDatabase miBD = FirebaseDatabase.getInstance();
         DatabaseReference adminReference = miBD.getReference().child("admin");
 
@@ -145,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()){
                     user.setAdmin(true);
                 }
-                startActivity(new Intent(LoginActivity.this, PrincipalActivity.class));
+                startActivity(new Intent(LoginActivity.this, NavigationActivity.class));
                 finish();
             }
 

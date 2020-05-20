@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.example.departamentoeducacionfisicaesquel.Login.LoginActivity;
 import com.example.departamentoeducacionfisicaesquel.R;
+import com.example.departamentoeducacionfisicaesquel.ui.NavigationActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class WelcomeActivity extends AppCompatActivity {
 
