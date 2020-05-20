@@ -24,16 +24,20 @@ public class Excercise {
     @SerializedName("category")
     @Expose
     private String category;
+    @SerializedName("imageURL")
+    @Expose
+    private String imageURL;
 
     public Excercise() {
     }
 
-    public Excercise(String name, String shortDescription, String description, String imageName, String category) {
+    public Excercise(String name, String shortDescription, String description, String imageName, String category, String imageURL) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.description = description;
         this.imageName = imageName;
         this.category = category;
+        this.imageURL = imageURL;
     }
 
     public String getName() {
@@ -82,6 +86,14 @@ public class Excercise {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
 

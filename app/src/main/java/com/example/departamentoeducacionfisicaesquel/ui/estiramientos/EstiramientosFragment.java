@@ -62,7 +62,8 @@ public class EstiramientosFragment extends Fragment {
                             documentSnapshot.get("shortDescription").toString(),
                             documentSnapshot.get("description").toString(),
                             documentSnapshot.get("imageName").toString(),
-                            "estiramientos"
+                            "estiramientos",
+                            documentSnapshot.get("imageURL").toString()
                     );
 
                     misEjercicios.add(mEjercicio);

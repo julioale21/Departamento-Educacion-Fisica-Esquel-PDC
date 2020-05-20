@@ -1,7 +1,6 @@
 package com.example.departamentoeducacionfisicaesquel.ui.estiramientos;
 
 import android.content.Context;
-import android.net.Uri;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +16,6 @@ import com.bumptech.glide.Glide;
 import com.codesgood.views.JustifiedTextView;
 import com.example.departamentoeducacionfisicaesquel.Model.Excercise;
 import com.example.departamentoeducacionfisicaesquel.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 
@@ -29,7 +23,6 @@ public class ListExcerciseAdapter extends RecyclerView.Adapter<ListExcerciseAdap
 
     private Context context;
     private ArrayList<Excercise> excercises;
-    private StorageReference mStorageRef;
 
     public ListExcerciseAdapter(Context context, ArrayList<Excercise> excercises){
         this.context = context;
@@ -49,7 +42,9 @@ public class ListExcerciseAdapter extends RecyclerView.Adapter<ListExcerciseAdap
         holder.title.setText(excercises.get(position).getName());
         holder.shortDescription.setText(excercises.get(position).getShortDescription());
         holder.description.setText(Html.fromHtml(excercises.get(position).getDescription().replace(".", ".\n")));
-        cargarFoto(excercises.get(position).getImageName(), excercises.get(position).getCategory(), holder);
+        Glide.with(context)
+                .load(excercises.get(position).getImageURL())
+                .into(holder.photo);
 
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,26 +58,6 @@ public class ListExcerciseAdapter extends RecyclerView.Adapter<ListExcerciseAdap
                 }
             }
         });
-    }
-
-    private void cargarFoto(String image, String category, ListExcerciseAdapter.ListExcerciseViewHolder holder) {
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-
-        mStorageRef.child("Exercises/" + category + "/" + image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(context)
-                        .load(uri)
-                        .into(holder.photo);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-                Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-
     }
 
     @Override

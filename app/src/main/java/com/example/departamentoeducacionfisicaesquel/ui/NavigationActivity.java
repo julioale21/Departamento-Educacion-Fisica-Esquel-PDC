@@ -1,21 +1,11 @@
 package com.example.departamentoeducacionfisicaesquel.ui;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.Menu;
-import android.widget.Toast;
 import com.example.departamentoeducacionfisicaesquel.R;
-import com.example.departamentoeducacionfisicaesquel.ui.estiramientos.EstiramientosFragment;
-import com.example.departamentoeducacionfisicaesquel.ui.home.HomeFragment;
 import com.google.android.material.navigation.NavigationView;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -32,6 +22,7 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
