@@ -14,7 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codesgood.views.JustifiedTextView;
-import com.example.departamentoeducacionfisicaesquel.Model.Excercise;
+import com.example.departamentoeducacionfisicaesquel.Model.Exercise;
 import com.example.departamentoeducacionfisicaesquel.R;
 import java.util.ArrayList;
 
@@ -22,11 +22,11 @@ import java.util.ArrayList;
 public class ListExcerciseAdapter extends RecyclerView.Adapter<ListExcerciseAdapter.ListExcerciseViewHolder> {
 
     private Context context;
-    private ArrayList<Excercise> excercises;
+    private ArrayList<Exercise> exercises;
 
-    public ListExcerciseAdapter(Context context, ArrayList<Excercise> excercises){
+    public ListExcerciseAdapter(Context context, ArrayList<Exercise> exercises){
         this.context = context;
-        this.excercises = excercises;
+        this.exercises = exercises;
     }
 
     @NonNull
@@ -39,11 +39,11 @@ public class ListExcerciseAdapter extends RecyclerView.Adapter<ListExcerciseAdap
 
     @Override
     public void onBindViewHolder(@NonNull ListExcerciseViewHolder holder, int position) {
-        holder.title.setText(excercises.get(position).getName());
-        holder.shortDescription.setText(excercises.get(position).getShortDescription());
-        holder.description.setText(Html.fromHtml(excercises.get(position).getDescription().replace(".", ".\n")));
+        holder.title.setText(exercises.get(position).getName());
+        holder.shortDescription.setText(exercises.get(position).getShortDescription());
+        holder.description.setText(Html.fromHtml(exercises.get(position).getDescription().replace(".", ".\n")));
         Glide.with(context)
-                .load(excercises.get(position).getImageURL())
+                .load(exercises.get(position).getImageURL())
                 .into(holder.photo);
 
         holder.button.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +62,7 @@ public class ListExcerciseAdapter extends RecyclerView.Adapter<ListExcerciseAdap
 
     @Override
     public int getItemCount() {
-        return excercises.size();
+        return exercises.size();
     }
 
     public static class ListExcerciseViewHolder extends RecyclerView.ViewHolder {

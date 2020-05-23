@@ -42,26 +42,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         holder.categoryName.setText(categories.get(position).getName());
-        cargarFoto(categories.get(position).getImage(), holder);
-    }
-
-    private void cargarFoto(String image, CategoryViewHolder holder) {
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-
-        mStorageRef.child("dashboard/" + image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(context)
-                        .load(uri)
-                        .into(holder.categoryPhoto);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-
+        Glide.with(context)
+                .load(categories.get(position).getImageURL())
+                .into(holder.categoryPhoto);
     }
 
     @Override

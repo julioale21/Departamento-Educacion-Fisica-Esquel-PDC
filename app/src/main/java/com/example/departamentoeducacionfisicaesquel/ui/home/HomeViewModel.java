@@ -3,8 +3,8 @@ package com.example.departamentoeducacionfisicaesquel.ui.home;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.departamentoeducacionfisicaesquel.Model.Category;
+import com.example.departamentoeducacionfisicaesquel.Utils.Utils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,7 +31,7 @@ public class HomeViewModel extends ViewModel {
     private void loadCategories() {
         mFirestone = FirebaseFirestore.getInstance();
 
-        mFirestone.collection("dashboard").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        mFirestone.collection(Utils.CLASSIFICATIONS.PRINCIPAL).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 misCategorias = new ArrayList<>();
@@ -40,9 +40,10 @@ public class HomeViewModel extends ViewModel {
                     DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(i);
 
                     mCategoria = new Category(
-                            documentSnapshot.get("name").toString(),
-                            documentSnapshot.get("description").toString(),
-                            documentSnapshot.get("imageName").toString()
+                            documentSnapshot.get(Utils.ENTITY.NAME).toString(),
+                            documentSnapshot.get(Utils.ENTITY.DESCRIPTION).toString(),
+                            documentSnapshot.get(Utils.ENTITY.IMAGENAME).toString(),
+                            documentSnapshot.get(Utils.ENTITY.IMAGEURL).toString()
                     );
 
                     misCategorias.add(mCategoria);

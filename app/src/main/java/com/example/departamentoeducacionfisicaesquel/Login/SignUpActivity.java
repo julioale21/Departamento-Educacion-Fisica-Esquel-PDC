@@ -54,23 +54,23 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void enviarMail() {
 
-        String contenido = "Nombre : " + etApellido.getText().toString() + " " + etNombre.getText().toString() + "\n" +
-                "Jerarquia: " + etJerarquia.getText().toString() + "\n" +
-                "Dependencia: " + etDependencia.getText().toString() + "\n" +
-                "Email: " + etEmail.getText().toString() + "\n" +
-                "Solicito se me envie un usuario y contraseña para acceder a la aplicación de Educación Física.";
+        String contenido =  Utils.EMAIL.CONTENTMESSAGE.NAME + ": " + etApellido.getText().toString() + " " + etNombre.getText().toString() + "\n" +
+                            Utils.EMAIL.CONTENTMESSAGE.HIERARCHY + ": " + etJerarquia.getText().toString() + "\n" +
+                            Utils.EMAIL.CONTENTMESSAGE.DEPENDENCY + ": " + etDependencia.getText().toString() + "\n" +
+                            Utils.EMAIL.CONTENTMESSAGE.EMAILADDRESS + ": " + etEmail.getText().toString() + "\n" +
+                            Utils.EMAIL.REQUESTMESSAGE;
 
         try {
-            new MailJob(Utils.EMAIL, Utils.PASSWORD).execute(
-                    new MailJob.Mail(etEmail.getText().toString(), "julio_ale21@hotmail.com", "Solicitud de usuario y contraseña", contenido)
+            new MailJob(Utils.EMAIL.ADDRESS, Utils.EMAIL.PASSWORD).execute(
+                    new MailJob.Mail(etEmail.getText().toString(), Utils.EMAIL.ADDRESS2, Utils.EMAIL.SUBJECT, contenido)
             );
 
-            Toast.makeText(SignUpActivity.this, "Te enviaremos los datos de tu cuenta al mail que ingresaste", Toast.LENGTH_LONG).show();
+            Toast.makeText(SignUpActivity.this, Utils.EMAIL.RESPONSEMESSAGE, Toast.LENGTH_LONG).show();
 
             finish();
 
         }catch (Exception e){
-            Toast.makeText(SignUpActivity.this, "Algo ocurrio y no se pudo realizar la solicitud. Intenta nuevamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(SignUpActivity.this, Utils.ERRORS.REQUESTMAILERRORMESSAGE, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -79,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
         Boolean valido = true;
 
         if (TextUtils.isEmpty(etNombre.getText().toString())){
-            lblNombre.setText("Debe ingresar el nombre");
+            lblNombre.setText(Utils.ERRORS.FORMS.EMPTYFIRSTNAME);
             lblNombre.setVisibility(View.VISIBLE);
             valido = false;
         }else {
@@ -87,7 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(etApellido.getText().toString())){
-            lblApellido.setText("Debe ingresar el Apellido");
+            lblApellido.setText(Utils.ERRORS.FORMS.EMPTYLASTNAME);
             lblApellido.setVisibility(View.VISIBLE);
             valido = false;
         }else {
@@ -95,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(etJerarquia.getText().toString())){
-            lblJerarquia.setText("Debe ingresar su jerarquia");
+            lblJerarquia.setText(Utils.ERRORS.FORMS.EMPTYHIERARCHY);
             lblJerarquia.setVisibility(View.VISIBLE);
             valido = false;
         } else{
@@ -103,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(etDependencia.getText().toString())){
-            lblDependencia.setText("Debe ingresar su dependencia");
+            lblDependencia.setText(Utils.ERRORS.FORMS.EMPTYDEPENDENCY);
             lblDependencia.setVisibility(View.VISIBLE);
             valido = false;
         } else {
@@ -111,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(etEmail.getText().toString())){
-            lblEmail.setText("Debe ingresar su email");
+            lblEmail.setText(Utils.ERRORS.FORMS.EMPTYEMAILADDRESS);
             lblEmail.setVisibility(View.VISIBLE);
             valido = false;
         } else {

@@ -4,7 +4,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Excercise {
+public class Exercise {
 
     @SerializedName("name")
     @Expose
@@ -15,9 +15,9 @@ public class Excercise {
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("imageName")
+    @SerializedName("muscleGroup")
     @Expose
-    private String imageName;
+    private String muscleGroup;
     @SerializedName("images")
     @Expose
     private List<Object> images = null;
@@ -28,14 +28,14 @@ public class Excercise {
     @Expose
     private String imageURL;
 
-    public Excercise() {
+    public Exercise() {
     }
 
-    public Excercise(String name, String shortDescription, String description, String imageName, String category, String imageURL) {
+    public Exercise(String name, String shortDescription, String description, String muscleGroup, String category, String imageURL) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.description = description;
-        this.imageName = imageName;
+        this.muscleGroup = muscleGroup;
         this.category = category;
         this.imageURL = imageURL;
     }
@@ -64,12 +64,12 @@ public class Excercise {
         this.description = description;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getMuscleGroup() {
+        return muscleGroup;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setMuscleGroup(String muscleGroup) {
+        this.muscleGroup = muscleGroup;
     }
 
     public List<Object> getImages() {

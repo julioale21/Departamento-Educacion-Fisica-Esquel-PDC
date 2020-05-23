@@ -15,14 +15,18 @@ public class Category {
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("imageURL")
+    @Expose
+    private String imageURL;
 
     public Category() {
     }
 
-    public Category(String name, String description, String image) {
+    public Category(String name, String description, String image, String imageURL) {
         this.name = name;
         this.description = description;
         this.image = image;
+        this.imageURL = imageURL;
     }
 
     public String getName() {
@@ -47,6 +51,14 @@ public class Category {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
 
