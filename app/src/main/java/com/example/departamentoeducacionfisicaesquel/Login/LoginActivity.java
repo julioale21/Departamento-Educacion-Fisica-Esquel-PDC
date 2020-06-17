@@ -3,6 +3,7 @@ package com.example.departamentoeducacionfisicaesquel.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,9 @@ import com.example.departamentoeducacionfisicaesquel.ui.NavigationActivity;
 import com.example.departamentoeducacionfisicaesquel.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,8 +68,6 @@ public class LoginActivity extends AppCompatActivity {
         } else{
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
-
-            //auth = FirebaseAuth.getInstance();
         }
     }
 
@@ -93,25 +94,24 @@ public class LoginActivity extends AppCompatActivity {
                 // ProgressBar visible
                 progressBar.setVisibility(View.VISIBLE);
 
-                // Autenticar usuario existe
                 auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener() {
-                            @Override
-                            public void onComplete(@NonNull Task task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    // Ocurrio un problema
-                                    if (password.length() < 6) {
-                                        inputPassword.setError(getString(R.string.minimum_password));
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    // Verifica si el usuario es administrador
-                                    assignRole();
-                                }
-                            }
-                        });
+                      .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                          @Override
+                          public void onComplete(@NonNull Task<AuthResult> task) {
+                              if (task.isSuccessful()) {
+                                  FirebaseUser authUser = auth.getCurrentUser();
+                                  user = User.getInstance();
+                                  user.setName(authUser.getDisplayName());
+                                  user.setEmail(authUser.getEmail().toString());
+                                  startUI();
+                              } else {
+                                  Toast.makeText(LoginActivity.this,
+                                                 "Authentication failed.",
+                                                       Toast.LENGTH_SHORT).show();
+                                  progressBar.setVisibility(View.GONE);
+                              }
+                          }
+                      });
                 break;
 
             case R.id.btn_reset_password:
@@ -120,37 +120,13 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.btn_signup:
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
                 break;
-
         }
     }
 
-    private void assignRole() {
-        FirebaseDatabase miBD = FirebaseDatabase.getInstance();
-        DatabaseReference adminReference = miBD.getReference().child("admin");
-
-        Query adminByEmailQuery = adminReference.orderByChild("email").equalTo(auth.getCurrentUser().getEmail()).limitToFirst(1);
-
-        adminByEmailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                user = User.getInstance();
-                user.setName(auth.getCurrentUser().getDisplayName());
-                user.setEmail(auth.getCurrentUser().getEmail().toString());
-
-                if(dataSnapshot.exists()){
-                    user.setAdmin(true);
-                }
-                startActivity(new Intent(LoginActivity.this, NavigationActivity.class));
-                finish();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    };
+    private void startUI() {
+        startActivity(new Intent(LoginActivity.this, NavigationActivity.class));
+        finish();
+    }
 }
 
 

@@ -42,7 +42,6 @@ public class HomeViewModel extends ViewModel {
                     mCategoria = new Category(
                             documentSnapshot.get(Utils.ENTITY.NAME).toString(),
                             documentSnapshot.get(Utils.ENTITY.DESCRIPTION).toString(),
-                            documentSnapshot.get(Utils.ENTITY.IMAGENAME).toString(),
                             documentSnapshot.get(Utils.ENTITY.IMAGEURL).toString()
                     );
 
